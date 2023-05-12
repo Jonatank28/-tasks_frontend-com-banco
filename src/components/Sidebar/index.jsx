@@ -36,11 +36,8 @@ const Sidebar = () => {
             .then((response) => {
                 if (data) {
                     setSubmitting(true)
-                    setTimeout(() => {
-                        setSubmitting(false)
-                        setNewTask(false)
-                        getDataTasks()
-                    }, 200)
+                    setNewTask(false)
+                    getDataTasks()
                 }
             })
             .catch((error) => {

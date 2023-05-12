@@ -5,6 +5,7 @@ import { TasksContext } from '@/context/tasksContext'
 import api from '../../../services/api'
 import Modal from '../Modal'
 import MenuOptionsCard from '../MenuOptions'
+import FormEditTask from '../FormEditTask'
 
 const Card = ({ key, title, description, task }) => {
     const { getDataTasks, tags, prioritys } = useContext(TasksContext)
@@ -22,7 +23,8 @@ const Card = ({ key, title, description, task }) => {
         console.log('clicou')
         setIsFavorite(!isFavorite)
         let farovite = isFavorite == true ? 1 : 0
-        await api.put('/tasks/favorite', {
+        let id = task.taskID
+        await api.put(`/tasks/favorite/${id}`, {
             taskID: task.taskID,
             favorite: farovite,
         })
@@ -135,7 +137,7 @@ const Card = ({ key, title, description, task }) => {
                             <Modal
                                 isOpen={modalOpenView}
                                 onClose={() => setModalOpenView(false)}
-                                title={title}
+                                title="Visualizar tarefa"
                             >
                                 <p>{description}</p>
                             </Modal>
@@ -145,9 +147,12 @@ const Card = ({ key, title, description, task }) => {
                             <Modal
                                 isOpen={modalOpenEdit}
                                 onClose={() => setModalOpenEdit(false)}
-                                title={title}
+                                title="Editar tarefa"
                             >
-                                <p>Aki vai o form de edição</p>
+                                <FormEditTask
+                                    task={task}
+                                    setModalOpenEdit={setModalOpenEdit}
+                                />
                             </Modal>
                         )}
                     </div>
@@ -303,6 +308,7 @@ const Card = ({ key, title, description, task }) => {
                                     btn1Text="Cancelar"
                                     btn2Class="btn btn-danger-outline"
                                     btn2Text="Excluir"
+                                    btnControl
                                 >
                                     <p className="pb-4">
                                         Tem certesa que deseja delelar a tarefa:{' '}

@@ -12,6 +12,7 @@ const Modal = ({
     btn2Class,
     btn2Text,
     disabled,
+    btnControl,
 }) => {
     const modalRef = useRef(null)
 
@@ -95,23 +96,25 @@ const Modal = ({
                                 {/* Conteudo do modal */}
                                 {children}
                                 {/* Botões de ação do modal */}
-                                <div className={DivClass}>
-                                    <button
-                                        type="button"
-                                        onClick={onClose}
-                                        className={btn1Class}
-                                    >
-                                        {btn1Text}
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        onClick={onSubmitModal}
-                                        className={btn2Class}
-                                        disabled={disabled}
-                                    >
-                                        {btn2Text}
-                                    </button>
-                                </div>
+                                {btnControl && (
+                                    <div className={DivClass}>
+                                        <button
+                                            type="button"
+                                            onClick={onClose}
+                                            className={btn1Class}
+                                        >
+                                            {btn1Text}
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            onClick={onSubmitModal}
+                                            className={btn2Class}
+                                            disabled={disabled}
+                                        >
+                                            {btn2Text}
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
