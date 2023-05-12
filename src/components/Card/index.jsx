@@ -22,7 +22,10 @@ const Card = ({ key, title, description, task }) => {
         console.log('clicou')
         setIsFavorite(!isFavorite)
         let farovite = isFavorite == true ? 1 : 0
-        await api.post('/tasks', { taskID: task.taskID, favorite: farovite })
+        await api.put('/tasks/favorite', {
+            taskID: task.taskID,
+            favorite: farovite,
+        })
         getDataTasks()
     }
 

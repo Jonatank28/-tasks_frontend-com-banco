@@ -1,9 +1,12 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import Modal from '../Modal'
+import api from '../../../services/api'
+import { TasksContext } from '@/context/tasksContext'
 
 const Sidebar = () => {
+    const { getDataTasks } = useContext(TasksContext)
     const [newTask, setNewTask] = useState(false)
 
     function handleNewTask() {
@@ -11,35 +14,38 @@ const Sidebar = () => {
     }
 
     const initialValues = {
-        taskName: '',
-        taskDescription: '',
-        priority: '1',
-        tag: '1',
+        title: '',
+        description: '',
+        priorityID: '1',
+        tagID: '1',
     }
 
     const validationSchema = Yup.object({
-        taskName: Yup.string().required('O nome da tarefa é obrigatório.'),
-        taskDescription: Yup.string().required(
+        title: Yup.string().required('O nome da tarefa é obrigatório.'),
+        description: Yup.string().required(
             'A descrição da tarefa é obrigatória.'
         ),
-        priority: Yup.string().required(
+        priorityID: Yup.string().required(
             'A prioridade da tarefa é obrigatória.'
         ),
     })
 
-    const onSubmit = (values, { setSubmitting }) => {
-        const newValues = {
-            ...values,
-            dateCreation: new Date(),
-        }
-        if (newValues) {
-            setSubmitting(true)
-            setTimeout(() => {
-                setSubmitting(false)
-                setNewTask(false)
-            }, 200)
-        }
-        console.log(newValues)
+    //!  Função para enviar os dados do formulário para a API para criar uma nova tarefa
+    const onSubmit = (data, { setSubmitting }) => {
+        api.post('/tasks', data)
+            .then((response) => {
+                if (data) {
+                    setSubmitting(true)
+                    setTimeout(() => {
+                        setSubmitting(false)
+                        setNewTask(false)
+                        getDataTasks()
+                    }, 200)
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }
 
     return (
@@ -69,19 +75,19 @@ const Sidebar = () => {
                                 <Form>
                                     <div className="mb-3">
                                         <label
-                                            htmlFor="taskName"
+                                            htmlFor="title"
                                             className="font-medium text-lg"
                                         >
                                             Nome da Tarefa
                                         </label>
                                         <Field
                                             type="text"
-                                            id="taskName"
-                                            name="taskName"
+                                            id="title"
+                                            name="title"
                                             className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
                                         />
                                         <ErrorMessage
-                                            name="taskName"
+                                            name="title"
                                             component="div"
                                             className="text-red-600 text-sm mt-1"
                                         />
@@ -89,19 +95,19 @@ const Sidebar = () => {
 
                                     <div className="mb-3">
                                         <label
-                                            htmlFor="taskDescription"
+                                            htmlFor="description"
                                             className="font-medium text-lg"
                                         >
                                             Descrição da Tarefa
                                         </label>
                                         <Field
                                             as="textarea"
-                                            id="taskDescription"
-                                            name="taskDescription"
+                                            id="description"
+                                            name="description"
                                             className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
                                         />
                                         <ErrorMessage
-                                            name="taskDescription"
+                                            name="description"
                                             component="div"
                                             className="text-red-600 text-sm mt-1"
                                         />
@@ -110,15 +116,15 @@ const Sidebar = () => {
                                     <div className="flex justify-between gap-4 ">
                                         <div className="mb-3 w-full">
                                             <label
-                                                htmlFor="priority"
+                                                htmlFor="priorityID"
                                                 className=" font-medium text-lg"
                                             >
                                                 Prioridade
                                             </label>
                                             <Field
                                                 as="select"
-                                                id="priority"
-                                                name="priority"
+                                                id="priorityID"
+                                                name="priorityID"
                                                 className="mt-1 block w-full rounded-md p-2"
                                             >
                                                 <option value="1">Baixa</option>
@@ -126,7 +132,7 @@ const Sidebar = () => {
                                                 <option value="3">Alta</option>
                                             </Field>
                                             <ErrorMessage
-                                                name="tag"
+                                                name="priorityID"
                                                 component="div"
                                                 className="text-red-600 text-sm mt-1"
                                             />
@@ -134,15 +140,15 @@ const Sidebar = () => {
 
                                         <div className="mb-3 w-full">
                                             <label
-                                                htmlFor="tag"
+                                                htmlFor="tagID"
                                                 className=" font-medium text-lg"
                                             >
                                                 Tag
                                             </label>
                                             <Field
                                                 as="select"
-                                                id="tag"
-                                                name="tag"
+                                                id="tagID"
+                                                name="tagID"
                                                 className="mt-1 block w-full rounded-md p-2"
                                             >
                                                 <option value="1">
@@ -160,7 +166,7 @@ const Sidebar = () => {
                                                 </option>
                                             </Field>
                                             <ErrorMessage
-                                                name="tag"
+                                                name="tagID"
                                                 component="div"
                                                 className="text-red-600 text-sm mt-1"
                                             />
