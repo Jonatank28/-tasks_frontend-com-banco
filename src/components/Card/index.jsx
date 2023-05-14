@@ -100,13 +100,16 @@ const Card = ({ key, title, description, task }) => {
         setModalOpenView(true)
         setMenuIsOpenOption(false)
     }
+    //! Card de 100%
+    // className={` bg-primary rounded-xl p-4 w-full flex flex-col ${task.finished == 1 ? 'opacity-50' : ''}`}
+    // pointer-events-none
 
     return (
         <div
-            className={`w-[310px] bg-primary rounded-xl p-4 flex flex-col
-                
-            `}
-            // ${finished == 1 ? 'opacity-50' : ''}
+            //! Card de 310px
+            className={`w-[310px] bg-primary rounded-xl p-4 flex flex-col ${
+                task.finished == 1 ? 'opacity-50  ' : ''
+            }`}
             key={key}
         >
             <div>

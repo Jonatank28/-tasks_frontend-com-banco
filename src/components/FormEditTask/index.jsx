@@ -2,32 +2,41 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import api from '../../../services/api'
 import { TasksContext } from '@/context/tasksContext'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
+import Switch from '../Form/Switch'
 
 const FormEditTask = ({ task, setModalOpenEdit }) => {
     const { getDataTasks } = useContext(TasksContext)
+    const [checked, setChecked] = useState(task.finished == 1 ? false : true)
+
+    console.log(task)
 
     const initialValues = {
         title: task.title,
         description: task.description,
         priorityID: task.priorityID,
         tagID: task.tagID,
+        status: task.finished,
     }
 
     const validationSchema = Yup.object({
-        title: Yup.string().required('O nome da tarefa é obrigatório.'),
+        // title: Yup.string().required('O nome da tarefa é obrigatório.'), //? Campo desabilitado
         description: Yup.string().required(
             'A descrição da tarefa é obrigatória.'
         ),
         priorityID: Yup.string().required(
             'A prioridade da tarefa é obrigatória.'
         ),
+        tagID: Yup.string().required('A tag da tarefa é obrigatória.'),
+        status: Yup.string().required('O status da tarefa é obrigatório.'),
     })
-
     //!  Função para enviar os dados do formulário para a API para criar uma nova tarefa
-    const onSubmit = (data, { setSubmitting }) => {
+    const onSubmit = (values, { setSubmitting }) => {
         let id = task.taskID
-        console.log(data)
+        let data = {
+            ...values,
+            finished: checked ? 0 : 1,
+        }
         api.put(`/tasks/${id}`, data)
             .then((response) => {
                 if (data) {
@@ -42,6 +51,8 @@ const FormEditTask = ({ task, setModalOpenEdit }) => {
             })
     }
 
+    console.log('checked', checked)
+
     return (
         <Formik
             initialValues={initialValues}
@@ -51,24 +62,36 @@ const FormEditTask = ({ task, setModalOpenEdit }) => {
             {({ isSubmitting }) =>
                 task && (
                     <Form>
-                        <div>
-                            <label
-                                htmlFor="title"
-                                className="font-medium text-lg"
-                            >
-                                Nome da Tarefa
-                            </label>
-                            <Field
-                                type="text"
-                                id="title"
-                                name="title"
-                                className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
-                            />
-                            <ErrorMessage
-                                name="title"
-                                component="div"
-                                className="text-red-600 text-sm mt-1"
-                            />
+                        <div className="flex justify-between items-center ">
+                            <div className="w-full">
+                                <label
+                                    htmlFor="title"
+                                    className="font-medium text-lg"
+                                >
+                                    Nome da Tarefa
+                                </label>
+                                <Field
+                                    type="text"
+                                    id="title"
+                                    disabled //? Campo desabilitado
+                                    name="title"
+                                    className="mt-1 block w-full p-2 rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50"
+                                />
+                                <ErrorMessage
+                                    name="title"
+                                    component="div"
+                                    className="text-red-600 text-sm mt-1"
+                                />
+                            </div>
+                            <div className="h-full">
+                                <Switch
+                                    finished={task.finished}
+                                    title="Status"
+                                    name="status"
+                                    checked={checked}
+                                    setChecked={setChecked}
+                                />
+                            </div>
                         </div>
 
                         <div className="mb-3">
