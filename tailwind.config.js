@@ -15,6 +15,7 @@ module.exports = {
                 primary: "var(--bg-primary)",
                 secundary: "var(--bg-secundary)",
                 hover: "var(--hover-bg)",
+                division: "var(--bg-division)",
             },
             textColor: {
                 primary: "var(--text-primary)",

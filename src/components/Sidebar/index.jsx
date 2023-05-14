@@ -64,10 +64,10 @@ const Sidebar = () => {
     return (
         <>
             <div
-                className="bg-secondary flex flex-col justify-between items-center p-2"
+                className=" flex bg-secundary flex-col justify-between items-center pb-2"
                 style={{ gridArea: 'sidebar' }}
             >
-                <div className="flex gap-2 items-center">
+                <div className="flex gap-2 items-center bg-secundary">
                     <img
                         src="https://github.com/Jonatank28.png"
                         alt="Foto de perfil"
@@ -76,7 +76,7 @@ const Sidebar = () => {
                     <h1 className="text-1xl font-bold">Bem vindo Jonatan</h1>
                 </div>
                 <div
-                    className="w-full btn btn-primary cursor-pointer flex items-center justify-center gap-2"
+                    className="w-[90%] btn btn-primary cursor-pointer flex items-center justify-center gap-2"
                     onClick={handleNewTask}
                 >
                     <AiOutlinePlus />

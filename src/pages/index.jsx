@@ -7,7 +7,7 @@ const index = () => {
         <main>
             <ToggleThemes className="fixed top-5 right-5" />
             <div
-                className="bg-primary h-screen w-screen grid gap-5
+                className="bg-division h-screen w-screen grid gap-5
                 "
                 style={{
                     gridTemplateColumns: '250px auto',

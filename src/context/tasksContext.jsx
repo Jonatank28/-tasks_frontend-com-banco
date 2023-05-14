@@ -4,14 +4,14 @@ import api from '../../services/api'
 const TasksContext = createContext({})
 
 const TasksProvider = ({ children }) => {
-    const [tasks, setTasks] = useState([])
+    const [data, setData] = useState([])
     const [tags, setTags] = useState([])
     const [prioritys, setPrioritys] = useState([])
 
     // //! Busca os dados da API, todas as tasks
     const getDataTasks = async () => {
         await api.get('/tasks').then((response) => {
-            setTasks(response.data)
+            setData(response.data)
         })
     }
 
@@ -38,8 +38,8 @@ const TasksProvider = ({ children }) => {
 
     //! Dados que envio para os componentes
     const values = {
-        tasks,
-        setTasks,
+        data,
+        setData,
         getDataTasks,
         tags,
         prioritys,
