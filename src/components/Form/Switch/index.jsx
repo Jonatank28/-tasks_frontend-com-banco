@@ -2,7 +2,7 @@ import { Field, ErrorMessage } from 'formik'
 
 function Switch({ title, name, checked, setChecked }) {
     return (
-        <div className="flex flex-col justify-end bg-red-500 h-full">
+        <div className="flex flex-col justify-end h-full">
             <label htmlFor={name} className="font-medium text-lg">
                 {title}
             </label>

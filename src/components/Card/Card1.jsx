@@ -7,7 +7,7 @@ import Modal from '../Modal'
 import MenuOptionsCard from '../MenuOptions'
 import FormEditTask from '../FormEditTask'
 
-const Card = ({ key, title, description, task }) => {
+const Card1 = ({ key, title, description, task }) => {
     const { getDataTasks, tags, prioritys } = useContext(TasksContext)
     const [isFavorite, setIsFavorite] = useState(!task.favorite)
     const [isTag, setIsTag] = useState(task.tagID)
@@ -100,9 +100,6 @@ const Card = ({ key, title, description, task }) => {
         setModalOpenView(true)
         setMenuIsOpenOption(false)
     }
-    //! Card de 100%
-    // className={` bg-primary rounded-xl p-4 w-full flex flex-col ${task.finished == 1 ? 'opacity-50' : ''}`}
-    // pointer-events-none
 
     return (
         <div
@@ -111,6 +108,7 @@ const Card = ({ key, title, description, task }) => {
                 task.finished == 1 ? 'opacity-50  ' : ''
             }`}
             key={key}
+            // pointer-events-none
         >
             <div>
                 {/* Header */}
@@ -327,4 +325,4 @@ const Card = ({ key, title, description, task }) => {
     )
 }
 
-export default Card
+export default Card1
